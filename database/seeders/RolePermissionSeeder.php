@@ -43,13 +43,9 @@ class RolePermissionSeeder extends Seeder
             // ROLES
             // ========================
             $superAdminRole = Role::firstOrCreate(['name' => 'super_admin']);
-            $salesRole = Role::firstOrCreate(['name' => 'sales']);
 
             // Super Admin → semua permission
             $superAdminRole->syncPermissions(Permission::all());
-
-            // Sales → limited permission
-            $salesRole->syncPermissions([]);
 
             // ========================
             // USERS
@@ -62,19 +58,10 @@ class RolePermissionSeeder extends Seeder
                 ]
             );
 
-            $sales = User::updateOrCreate(
-                ['email' => 'sales@mail.com'],
-                [
-                    'name' => 'Sales',
-                    'password' => Hash::make('password'),
-                ]
-            );
-
             // ========================
             // ASSIGN ROLE
             // ========================
             $superAdmin->syncRoles([$superAdminRole]);
-            $sales->syncRoles([$salesRole]);
 
             DB::commit();
 
